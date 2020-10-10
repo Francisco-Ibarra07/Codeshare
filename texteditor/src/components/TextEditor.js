@@ -13,17 +13,24 @@ export default function TextEditor(props) {
 
   return (
     <>
-      <CodeMirror
-        value={text}
-        onBeforeChange={handleTextEditorChange}
-        options={{
-          lineWrapping: true,
-          lineNumbers: true,
-          lint: true,
-          mode: { language },
-          theme: "material",
-        }}
-      />
+      <div className="editor-container">
+        <div className="editor-top">
+          {language}
+          <button>Change language</button>
+        </div>
+
+        <CodeMirror
+          value={text}
+          onBeforeChange={handleTextEditorChange}
+          options={{
+            lineWrapping: true,
+            lineNumbers: true,
+            lint: true,
+            mode: language,
+            theme: "material",
+          }}
+        />
+      </div>
     </>
   );
 }
