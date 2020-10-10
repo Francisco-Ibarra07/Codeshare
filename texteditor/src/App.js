@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
 import TextEditor from "./components/TextEditor";
 
 function App() {
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("javascript");
+  const socketRef = useRef();
+
+  useEffect(() => {
+    socketRef.current = io("localhost:5000");
+
+    // Handles incoming text changes
+    socketRef.current.on("text change", (newText) => {
+      setText(newText);
+    });
+  }, []);
+
+  function handleLocalTextChange(newText) {
+    // Update our changes locally
+    setText(newText);
+
+    // Send to everyone else
+    socketRef.current.emit("text change", newText);
+  }
 
   return (
     <>
@@ -11,13 +30,13 @@ function App() {
         <div className="text-editor-pane">
           <TextEditor
             text={text}
-            setText={setText}
+            setText={handleLocalTextChange}
             language={language}
             setLanguage={setLanguage}
           />
           <TextEditor
             text={text}
-            setText={setText}
+            setText={handleLocalTextChange}
             language={language}
             setLanguage={setLanguage}
           />
