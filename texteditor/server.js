@@ -7,10 +7,11 @@ const server = http.createServer(app);
 const io = socketio(server);
 const port = 5000;
 
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  // res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.send("Hello World");
 });
 
 io.on("connection", (socket) => {
