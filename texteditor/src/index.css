@@ -3,7 +3,8 @@
 }
 
 .app-container {
-  /* display: flex; */
+  flex-grow: 1;
+  flex-direction: column;
 }
 
 .text-editor-pane {
@@ -27,4 +28,15 @@
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
+}
+
+.CodeMirror {
+  height: 75vh !important;
+}
+
+.code-mirror-wrapper {
+  flex-grow: 1;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  overflow: hidden;
 }

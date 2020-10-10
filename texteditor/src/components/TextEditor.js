@@ -15,11 +15,13 @@ export default function TextEditor(props) {
     <>
       <div className="editor-container">
         <div className="editor-top">
-          {language}
+          Display Name: {language}
           <button>Change language</button>
+          <button>Generate Invitiation Link </button>
         </div>
 
         <CodeMirror
+          className="code-mirror-wrapper"
           value={text}
           onBeforeChange={handleTextEditorChange}
           options={{
