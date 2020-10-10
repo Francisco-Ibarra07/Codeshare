@@ -8,7 +8,8 @@ function App() {
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = io("localhost:5000");
+    socketRef.current = io("localhost:5000"); // <-- Use when developing
+    // socketRef.current = io(); // <-- Use during deployment
 
     // Handles incoming text changes
     socketRef.current.on("text change", (newText) => {
@@ -28,12 +29,6 @@ function App() {
     <>
       <div className="app-container">
         <div className="text-editor-pane">
-          <TextEditor
-            text={text}
-            setText={handleLocalTextChange}
-            language={language}
-            setLanguage={setLanguage}
-          />
           <TextEditor
             text={text}
             setText={handleLocalTextChange}
