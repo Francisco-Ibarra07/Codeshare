@@ -23,6 +23,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("text change", newText);
   });
 
+  socket.on("language change", (newLang) => {
+    socket.broadcast.emit("language change", newLang);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
