@@ -9,8 +9,6 @@ export default function RoomManager(props) {
   const [language, setLanguage] = useState("javascript");
   const [text, setText] = useState(snippets["javascript"]);
 
-  console.log(`Welcome to room ${roomName}, ${displayName}`);
-
   useEffect(() => {
     socketRef.current = io(`localhost:5000?roomName=${roomName}`); // <-- Use when developing
     // socketRef.current = io(); // <-- Use during deployment
@@ -25,7 +23,14 @@ export default function RoomManager(props) {
       setLanguage(newLang);
       setText(snippets[newLang]);
     });
-  }, []);
+
+    // When component is deleting, close the existing connection
+    // before exiting
+    return function closeSocket() {
+      console.log("Disconnecting now");
+      socketRef.current.disconnect();
+    };
+  }, [roomName]);
 
   function handleLocalTextChange(newText) {
     // Update our changes locally
