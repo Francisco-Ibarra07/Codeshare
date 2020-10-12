@@ -12,7 +12,7 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import { supportedLanguages, getLanguageMode } from "../constants/editor";
 
 export default function TextEditor(props) {
-  const { text, setText, language, setLanguage } = props;
+  const { text, setText, language, setLanguage, displayName, roomName } = props;
 
   function handleTextEditorChange(editor, data, value) {
     setText(value);
@@ -26,7 +26,7 @@ export default function TextEditor(props) {
     <>
       <div className="editor-container">
         <div className="editor-top">
-          Display Name: John Smith
+          Display Name: {displayName} Room Name: {roomName}
           <button>Generate Invitiation Link </button>
           <DropdownButton title={language}>
             {supportedLanguages.map((lang) => (
