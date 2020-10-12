@@ -1,5 +1,5 @@
 import React from "react";
-import Room from "./pages/Room";
+import RoomPage from "./pages/RoomPage";
 import HomePage from "./pages/HomePage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export default function App() {
     <BrowserRouter>
       <Switch>
         <Route component={HomePage} exact path="/" />
-        <Route component={Room} exact path="/:roomName" />
+        <Route component={RoomPage} exact path="/room/:roomName" />
       </Switch>
     </BrowserRouter>
   );
