@@ -2,3 +2,9 @@ Tasks:
 - Cursor (https://dev.to/yoheiseki/how-to-display-the-position-of-the-cursor-caret-of-another-client-with-codemirror-6p8)
 - Invitation link generating (room management)
 - Creating a home page that asks for display name (and room name?)
+
+
+Done:
+- Integrate codemirror text editor
+- Create 'server.js' to handle socket.io messages
+- Create a dropdown button to allow language changes
