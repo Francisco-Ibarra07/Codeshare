@@ -13,11 +13,9 @@ const checkRoomName = async (roomName) => {
 export default function RoomPage() {
   const { roomName } = useParams();
   const [displayName, setDisplayName] = useState("");
-  const { status, data, error } = useQuery(
-    "room",
-    () => checkRoomName(roomName),
-    { retry: 0 }
-  );
+  const { status } = useQuery("room", () => checkRoomName(roomName), {
+    retry: 0,
+  });
 
   if (status === "loading") {
     return <span>Loading...</span>;
