@@ -3,7 +3,7 @@ A collaborative web application that utilizes React, Nodejs, Expressjs, and the 
 
 ## Real time text editor 📝
 
-**Project is still in progress**
+**10/13/20 - Editor is still a work in progress so check back later for more updates!**
 <img src='http://g.recordit.co/MEFjiQOFYK.gif' />
 
 This text editor was built using React.js and it uses the Socket.io library for realtime communication
