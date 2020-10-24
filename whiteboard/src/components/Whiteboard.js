@@ -41,8 +41,15 @@ export default function Whiteboard(props) {
     setIsDrawing(false)
   }
 
+  function clearWhiteboard() {
+    const context = contextRef.current;
+    const {width, height} = canvasRef.current;
+    context.clearRect(0, 0, width, height);
+  }
+
   return (
     <>
+        <button onClick={clearWhiteboard}>Clear Whiteboard</button>
         <canvas
           onMouseDown={startDrawing}
           onMouseUp={finishDrawing}
