@@ -36,8 +36,6 @@ export default function Whiteboard(props) {
     context.stroke()
     const {width, height} = canvasRef.current;
     const imageData = context.getImageData(0, 0, width, height);
-    setGlobalData(imageData);
-    handleWhiteboardChange(imageData);
   }
 
   function finishDrawing() {
