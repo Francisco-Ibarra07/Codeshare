@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { snippets } from "../constants/snippets";
 import TextEditor from "../components/TextEditor";
+import Whiteboard from "../components/Whiteboard";
 
 export default function RoomManager(props) {
   const { roomName, displayName } = props;
@@ -54,17 +55,15 @@ export default function RoomManager(props) {
   return (
     <>
       <div className="app-container">
-        <div className="text-editor-pane">
-          <TextEditor
-            text={text}
-            setText={handleLocalTextChange}
-            language={language}
-            setLanguage={handleLocalLanguageChange}
-            displayName={displayName}
-            roomName={roomName}
-          />
-        </div>
-        <div className="whiteboard-pane">{/* <Whiteboard /> */}</div>
+        <TextEditor
+          text={text}
+          setText={handleLocalTextChange}
+          language={language}
+          setLanguage={handleLocalLanguageChange}
+          displayName={displayName}
+          roomName={roomName}
+        />
+        <Whiteboard />
       </div>
     </>
   );
