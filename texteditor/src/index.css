@@ -3,15 +3,21 @@
 }
 
 .app-container {
-  flex-grow: 1;
-  flex-direction: column;
+  display: flex;
 }
 
 .text-editor-pane {
   display: flex;
 }
 
+.whiteboard-container {
+  max-width: 50%;
+  border: 3px solid black;
+  padding: 0.5rem;
+}
+
 .editor-container {
+  max-width: 50%;
   flex-grow: 1;
   flex-basis: 0;
   flex-direction: column;
