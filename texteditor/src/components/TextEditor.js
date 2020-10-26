@@ -23,14 +23,15 @@ export default function TextEditor(props) {
   }
 
   function generateLink() {
-    alert(`http://localhost:3000/room/${roomName}`);
+    alert(`   http://localhost:3000/room/${roomName}   `);
   }
 
   return (
     <>
       <div className="editor-container">
         <div className="editor-top">
-          Display Name: {displayName} Room Name: {roomName}
+          Display Name: {displayName}
+          {/* Room Name: {roomName} */}
           <button onClick={generateLink}>Generate Invitiation Link </button>
           <DropdownButton title={language}>
             {supportedLanguages.map((lang) => (
