@@ -27,38 +27,36 @@ export default function TextEditor(props) {
   }
 
   return (
-    <>
-      <div className="editor-container">
-        <div className="editor-top">
-          Display Name: {displayName}
-          {/* Room Name: {roomName} */}
-          <button onClick={generateLink}>Generate Invitiation Link </button>
-          <DropdownButton title={language}>
-            {supportedLanguages.map((lang) => (
-              <Dropdown.Item
-                key={`dropdown-item-${lang}`}
-                onSelect={handleLanguageChange}
-                eventKey={lang}
-              >
-                {lang}
-              </Dropdown.Item>
-            ))}
-          </DropdownButton>
-        </div>
-
-        <CodeMirror
-          className="code-mirror-wrapper"
-          value={text}
-          onBeforeChange={handleTextEditorChange}
-          options={{
-            lineWrapping: true,
-            lineNumbers: true,
-            lint: true,
-            mode: getLanguageMode(language),
-            theme: "material",
-          }}
-        />
+    <div className="editor-container">
+      <div className="editor-top">
+        Display Name: {displayName}
+        {/* Room Name: {roomName} */}
+        <button onClick={generateLink}>Generate Invitiation Link </button>
+        <DropdownButton title={language}>
+          {supportedLanguages.map((lang) => (
+            <Dropdown.Item
+              key={`dropdown-item-${lang}`}
+              onSelect={handleLanguageChange}
+              eventKey={lang}
+            >
+              {lang}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
       </div>
-    </>
+
+      <CodeMirror
+        className="code-mirror-wrapper"
+        value={text}
+        onBeforeChange={handleTextEditorChange}
+        options={{
+          lineWrapping: true,
+          lineNumbers: true,
+          lint: true,
+          mode: getLanguageMode(language),
+          theme: "material",
+        }}
+      />
+    </div>
   );
 }
