@@ -9,6 +9,10 @@ Whiteboard Tasks:
 - Add an eraser tool
 - Allow user to make eraser or pen resizable
 
+Other:
+- create a participants list
+
+
 Done:
 - Integrate codemirror text editor
 - Create 'server.js' to handle socket.io messages
