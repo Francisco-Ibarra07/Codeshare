@@ -12,6 +12,9 @@ let rooms = {
   defaultRoom: {
     users: [],
   },
+  cmpe165: {
+    users: [],
+  },
 };
 
 // app.use(express.static(path.join(__dirname, "build")));
@@ -52,17 +55,21 @@ io.on("connection", (socket) => {
     return;
   }
 
-  // Todo: join user to roomName
+  // Joins socket to specified room name
+  socket.join(roomName, () => {
+    io.to(roomName).emit("new user", "New person has entered the room");
+  });
+
   console.log(`User connecting to room '${roomName}'`);
 
   // Listen for 'text change' messages and forward
-  // them to everyone else
+  // them to everyone else in the same room
   socket.on("text change", (newText) => {
-    socket.broadcast.emit("text change", newText);
+    socket.to(roomName).broadcast.emit("text change", newText);
   });
 
   socket.on("language change", (newLang) => {
-    socket.broadcast.emit("language change", newLang);
+    socket.to(roomName).broadcast.emit("language change", newLang);
   });
 
   socket.on("disconnect", () => {

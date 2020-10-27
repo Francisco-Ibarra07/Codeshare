@@ -14,6 +14,10 @@ export default function RoomManager(props) {
     socketRef.current = io(`localhost:5000?roomName=${roomName}`); // <-- Use when developing
     // socketRef.current = io(); // <-- Use during deployment
 
+    socketRef.current.on("new user", (data) => {
+      console.log(data);
+    });
+
     // Handles incoming text changes
     socketRef.current.on("text change", (newText) => {
       setText(newText);
