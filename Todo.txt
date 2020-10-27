@@ -1,8 +1,13 @@
-Tasks:
+Text Editor Tasks:
 - Cursor (https://dev.to/yoheiseki/how-to-display-the-position-of-the-cursor-caret-of-another-client-with-codemirror-6p8)
 - Invitation link generating (room management)
 - Creating a home page that asks for display name (and room name?)
 
+Whiteboard Tasks:
+- Make it "realtime" by using the socket.io and socket.io-client libraries
+- Add a button to change whiteboard pen color
+- Add an eraser tool
+- Allow user to make eraser or pen resizable
 
 Done:
 - Integrate codemirror text editor
