@@ -6,14 +6,16 @@ export default function Whiteboard(props) {
   const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
+    const pixelRatio = window.devicePixelRatio || 1;
+    
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 2;
-    canvas.style.width = `${window.innerWidth / 2}px`;
+    canvas.height = window.innerHeight * pixelRatio;
+    canvas.style.width = `${window.innerWidth / pixelRatio}px`;
     canvas.style.height = `${window.innerHeight}px`;
 
     const context = canvas.getContext("2d");
-    context.scale(2, 2);
+    context.scale(pixelRatio, pixelRatio);
     context.lineCap = "round";
     context.strokeStyle = "black";
     context.lineWidth = 5;
