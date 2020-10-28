@@ -7,9 +7,9 @@ export default function Whiteboard(props) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 2;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight * 2;
-    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.width = `${window.innerWidth / 2}px`;
     canvas.style.height = `${window.innerHeight}px`;
 
     const context = canvas.getContext("2d");
