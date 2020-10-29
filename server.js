@@ -65,6 +65,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("language change", newLang);
   });
 
+  // Listen for 'canvas change' messages and forward
+  // them to everyone else
+  socket.on("canvas change", (newDrawing) => {
+    console.log("Received canvas change");
+    socket.broadcast.emit("canvas change", newDrawing);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
