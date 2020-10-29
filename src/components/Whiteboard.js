@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 export default function Whiteboard(props) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const { drawing, setDrawing } = props;
   const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {

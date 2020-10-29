@@ -9,6 +9,7 @@ export default function RoomManager(props) {
   const socketRef = useRef();
   const [language, setLanguage] = useState("javascript");
   const [text, setText] = useState(snippets["javascript"]);
+  const [drawing, setDrawing] = useState([]);
 
   useEffect(() => {
     socketRef.current = io(`localhost:5000?roomName=${roomName}`); // <-- Use when developing
