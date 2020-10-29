@@ -53,6 +53,13 @@ export default function RoomManager(props) {
     socketRef.current.emit("language change", newLang);
   }
 
+  function handleLocalDrawingChange(newDrawing) {
+    // Update our drawing locally
+    setDrawing(newDrawing);
+    // Emit canvas change to everyone else
+    socketRef.current.emit("canvas change", newDrawing);
+  }
+
   return (
     <>
       <div className="app-container">
