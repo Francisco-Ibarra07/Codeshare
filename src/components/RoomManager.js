@@ -26,6 +26,11 @@ export default function RoomManager(props) {
       setText(snippets[newLang]);
     });
 
+    // Handles incoming canvas changes
+    socketRef.current.on("canvas change", (newDrawing) => {
+      setDrawing(newDrawing);
+    });
+
     // When component is deleting, close the existing connection
     // before exiting
     return function closeSocket() {
