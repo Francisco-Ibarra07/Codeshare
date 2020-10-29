@@ -71,7 +71,10 @@ export default function RoomManager(props) {
           displayName={displayName}
           roomName={roomName}
         />
-        <Whiteboard />
+        <Whiteboard
+          drawing={drawing}
+          setDrawing={handleLocalDrawingChange}
+        />
       </div>
     </>
   );
