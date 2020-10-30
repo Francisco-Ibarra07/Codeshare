@@ -5,6 +5,7 @@ export default function Whiteboard(props) {
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
   const [isDrawing, setIsDrawing] = useState(false);
+  var [id, setID] = useState(0);
 
   useEffect(() => {
     const pixelRatio = window.devicePixelRatio || 1;
