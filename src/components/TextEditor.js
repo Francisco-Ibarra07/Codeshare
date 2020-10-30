@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "codemirror/mode/php/php";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/python/python";
@@ -13,6 +13,8 @@ import { supportedLanguages, getLanguageMode } from "../constants/editor";
 
 export default function TextEditor(props) {
   const { text, setText, language, setLanguage, displayName, roomName } = props;
+  const cmRef = useRef();
+  const markerRef = useRef();
 
   function handleTextEditorChange(editor, data, value) {
     setText(value);
@@ -24,6 +26,35 @@ export default function TextEditor(props) {
 
   function generateLink() {
     alert(`   http://localhost:3000/room/${roomName}   `);
+  }
+
+  function handleCursorChange(editor, data) {
+    console.log("on change: ", markerRef.current);
+    if (markerRef.current !== undefined) {
+      console.log("Clearing!");
+      markerRef.current.clear();
+    }
+
+    const newMarker = createBookmark(data);
+    console.log("New marker: ", newMarker);
+    markerRef.current = newMarker;
+  }
+
+  function createBookmark(cursorPos, color) {
+    const cursorCoords = cmRef.current.cursorCoords(cursorPos);
+    const cursorElement = document.createElement("span");
+    cursorElement.style.borderLeftStyle = "solid";
+    cursorElement.style.borderLeftWidth = "2px";
+    cursorElement.style.borderLeftColor = color;
+    cursorElement.style.height = `${cursorCoords.bottom - cursorCoords.top}px`;
+    cursorElement.style.padding = 0;
+    cursorElement.style.zIndex = 0;
+
+    const newMarker = cmRef.current.setBookmark(cursorPos, {
+      widget: cursorElement,
+    });
+
+    return newMarker;
   }
 
   return (
@@ -49,6 +80,8 @@ export default function TextEditor(props) {
         className="code-mirror-wrapper"
         value={text}
         onBeforeChange={handleTextEditorChange}
+        onCursor={handleCursorChange}
+        editorDidMount={(editor) => (cmRef.current = editor)}
         options={{
           lineWrapping: true,
           lineNumbers: true,
