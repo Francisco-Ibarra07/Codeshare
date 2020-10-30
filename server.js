@@ -68,7 +68,6 @@ io.on("connection", (socket) => {
   // Listen for 'canvas change' messages and forward
   // them to everyone else
   socket.on("canvas change", (newDrawing) => {
-    console.log("Received canvas change");
     socket.broadcast.emit("canvas change", newDrawing);
   });
 
