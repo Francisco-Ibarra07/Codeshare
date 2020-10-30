@@ -24,6 +24,30 @@ export default function Whiteboard(props) {
     contextRef.current = context;
   }, []);
 
+  useEffect(() => {
+    if (isDrawing || drawing.length <= 1) return;
+    const context = contextRef.current;
+    const lastCoordinates = drawing[drawing.length - 1];
+    const secondToLastCoordinates = drawing[drawing.length - 2];
+    const { offsetX, offsetY, id } = lastCoordinates;
+    const id2 = secondToLastCoordinates.id;
+    if (id !== id2) {
+      context.closePath();
+      context.beginPath();
+      context.moveTo(offsetX,offsetY);
+    }
+    else {
+      context.lineTo(offsetX, offsetY);
+      context.stroke();
+    }
+    
+    // if (drawing) contextRef.current.putImageData(drawing, 0, 0);
+  }, [drawing]);
+
+  function handleDrawingChange(newDrawing) {
+    setDrawing(newDrawing)
+  }
+
   function startDrawing(e) {
     const { offsetX, offsetY } = e.nativeEvent;
     contextRef.current.beginPath();
@@ -38,13 +62,16 @@ export default function Whiteboard(props) {
     context.lineTo(offsetX, offsetY);
     context.strokeStyle = color;
     context.stroke();
-    const { width, height } = canvasRef.current;
-    const imageData = context.getImageData(0, 0, width, height);
+    const coordinates = { offsetX, offsetY, id };
+    const newCoordinates = drawing.concat(coordinates);
+    handleDrawingChange(newCoordinates);
   }
 
   function finishDrawing() {
     contextRef.current.closePath();
     setIsDrawing(false);
+    const lineID = id + 1;
+    setID(lineID);
   }
 
   function clearWhiteboard() {
