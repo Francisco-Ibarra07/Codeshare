@@ -40,8 +40,6 @@ export default function Whiteboard(props) {
       context.lineTo(offsetX, offsetY);
       context.stroke();
     }
-    
-    // if (drawing) contextRef.current.putImageData(drawing, 0, 0);
   }, [drawing]);
 
   function handleDrawingChange(newDrawing) {
