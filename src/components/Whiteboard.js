@@ -25,33 +25,25 @@ export default function Whiteboard(props) {
 
   useEffect(() => {
     if (drawing.length == 0) {
-      const context = contextRef.current;
-      const { width, height } = canvasRef.current;
-      context.clearRect(0, 0, width, height);
-      context.beginPath();
+      clearCanvas();
+      return;
     }
     if (isDrawing || drawing.length <= 1) return;
-    const context = contextRef.current;
+
     const lastCoordinates = drawing[drawing.length - 1];
     const { offsetX, offsetY, isNewLine } = lastCoordinates;
-    if (isNewLine) {
-      context.beginPath();
-      context.moveTo(offsetX,offsetY);
-    }
-    else {
-      context.lineTo(offsetX, offsetY);
-      context.stroke();
-    }
+
+    if (isNewLine) startNewLine(offsetX, offsetY);
+    else draw(offsetX, offsetY);
   }, [drawing]);
 
   function handleDrawingChange(newDrawing) {
     setDrawing(newDrawing)
   }
 
-  function startDrawing(e) {
+  function handleMouseDown(e) {
     const { offsetX, offsetY } = e.nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX, offsetY);
+    startNewLine(offsetX, offsetY);
     setIsDrawing(true);
     const isNewLine = true;
     const coordinate = { offsetX, offsetY, isNewLine };
@@ -59,38 +51,50 @@ export default function Whiteboard(props) {
     handleDrawingChange(newDrawing);
   }
 
-  function draw(e, color) {
+  function handleMouseMove(e) {
     if (!isDrawing) return;
-    const context = contextRef.current;
     const { offsetX, offsetY } = e.nativeEvent;
-    context.lineTo(offsetX, offsetY);
-    context.strokeStyle = color;
-    context.stroke();
+    draw(offsetX, offsetY);
     const coordinate = { offsetX, offsetY };
     const newDrawing = drawing.concat(coordinate);
     handleDrawingChange(newDrawing);
   }
 
-  function finishDrawing() {
-    contextRef.current.closePath();
+  function handleMouseUp() {
     setIsDrawing(false);
   }
+  
+  function handleClearWhiteboardClick() {
+    clearCanvas();
+    handleDrawingChange([]);
+  }
 
-  function clearWhiteboard() {
+  function startNewLine(x, y) {
+    const context = contextRef.current
+    context.beginPath();
+    context.moveTo(x, y);
+  }
+
+  function draw(x, y) {
+    const context = contextRef.current;
+    context.lineTo(x, y);
+    context.stroke();
+  }
+
+  function clearCanvas() {
     const context = contextRef.current;
     const { width, height } = canvasRef.current;
     context.clearRect(0, 0, width, height);
     context.beginPath();
-    handleDrawingChange([]);
   }
 
   return (
     <div className="whiteboard-container">
-      <button onClick={clearWhiteboard}>Clear Whiteboard</button>
+      <button onClick={handleClearWhiteboardClick}>Clear Whiteboard</button>
       <canvas
-        onMouseDown={startDrawing}
-        onMouseUp={finishDrawing}
-        onMouseMove={draw}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
         ref={canvasRef}
       />
     </div>
