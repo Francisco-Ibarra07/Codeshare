@@ -25,6 +25,12 @@ export default function Whiteboard(props) {
   }, []);
 
   useEffect(() => {
+    if (drawing.length == 0) {
+      const context = contextRef.current;
+      const { width, height } = canvasRef.current;
+      context.clearRect(0, 0, width, height);
+      context.beginPath();
+    }
     if (isDrawing || drawing.length <= 1) return;
     const context = contextRef.current;
     const lastCoordinates = drawing[drawing.length - 1];
@@ -76,6 +82,8 @@ export default function Whiteboard(props) {
     const context = contextRef.current;
     const { width, height } = canvasRef.current;
     context.clearRect(0, 0, width, height);
+    context.beginPath();
+    handleDrawingChange([]);
   }
 
   return (
