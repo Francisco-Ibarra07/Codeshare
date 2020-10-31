@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { startNewLine, draw, clearCanvas } from "../constants/painter";
 
 export default function Whiteboard(props) {
   const canvasRef = useRef(null);
@@ -24,8 +25,8 @@ export default function Whiteboard(props) {
   }, []);
 
   useEffect(() => {
-    if (drawing.length == 0) {
-      clearCanvas();
+      const { width, height } = canvasRef.current;
+      clearCanvas(width, height, contextRef.current);
       return;
     }
     if (isDrawing || drawing.length <= 1) return;
@@ -33,8 +34,9 @@ export default function Whiteboard(props) {
     const lastCoordinates = drawing[drawing.length - 1];
     const { offsetX, offsetY, isNewLine } = lastCoordinates;
 
-    if (isNewLine) startNewLine(offsetX, offsetY);
-    else draw(offsetX, offsetY);
+    const context = contextRef.current;
+    if (isNewLine) startNewLine(offsetX, offsetY, context);
+    else draw(offsetX, offsetY, context);
   }, [drawing]);
 
   function handleDrawingChange(newDrawing) {
@@ -43,7 +45,7 @@ export default function Whiteboard(props) {
 
   function handleMouseDown(e) {
     const { offsetX, offsetY } = e.nativeEvent;
-    startNewLine(offsetX, offsetY);
+    startNewLine(offsetX, offsetY, contextRef.current);
     setIsDrawing(true);
     const isNewLine = true;
     const coordinate = { offsetX, offsetY, isNewLine };
@@ -54,7 +56,7 @@ export default function Whiteboard(props) {
   function handleMouseMove(e) {
     if (!isDrawing) return;
     const { offsetX, offsetY } = e.nativeEvent;
-    draw(offsetX, offsetY);
+    draw(offsetX, offsetY, contextRef.current);
     const coordinate = { offsetX, offsetY };
     const newDrawing = drawing.concat(coordinate);
     handleDrawingChange(newDrawing);
@@ -65,27 +67,9 @@ export default function Whiteboard(props) {
   }
   
   function handleClearWhiteboardClick() {
-    clearCanvas();
-    handleDrawingChange([]);
-  }
-
-  function startNewLine(x, y) {
-    const context = contextRef.current
-    context.beginPath();
-    context.moveTo(x, y);
-  }
-
-  function draw(x, y) {
-    const context = contextRef.current;
-    context.lineTo(x, y);
-    context.stroke();
-  }
-
-  function clearCanvas() {
-    const context = contextRef.current;
     const { width, height } = canvasRef.current;
-    context.clearRect(0, 0, width, height);
-    context.beginPath();
+    clearCanvas(width, height, contextRef.current);
+    handleDrawingChange([]);
   }
 
   return (
