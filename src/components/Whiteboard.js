@@ -25,6 +25,7 @@ export default function Whiteboard(props) {
   }, []);
 
   useEffect(() => {
+    if (drawing.length === 0) {
       const { width, height } = canvasRef.current;
       clearCanvas(width, height, contextRef.current);
       return;
