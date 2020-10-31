@@ -5,7 +5,6 @@ export default function Whiteboard(props) {
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
   const [isDrawing, setIsDrawing] = useState(false);
-  var [id, setID] = useState(0);
 
   useEffect(() => {
     const pixelRatio = window.devicePixelRatio || 1;
@@ -34,11 +33,8 @@ export default function Whiteboard(props) {
     if (isDrawing || drawing.length <= 1) return;
     const context = contextRef.current;
     const lastCoordinates = drawing[drawing.length - 1];
-    const secondToLastCoordinates = drawing[drawing.length - 2];
-    const { offsetX, offsetY, id } = lastCoordinates;
-    const id2 = secondToLastCoordinates.id;
-    if (id !== id2) {
-      context.closePath();
+    const { offsetX, offsetY, isNewLine } = lastCoordinates;
+    if (isNewLine) {
       context.beginPath();
       context.moveTo(offsetX,offsetY);
     }
@@ -57,6 +53,10 @@ export default function Whiteboard(props) {
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
     setIsDrawing(true);
+    const isNewLine = true;
+    const coordinate = { offsetX, offsetY, isNewLine };
+    const newDrawing = drawing.concat(coordinate);
+    handleDrawingChange(newDrawing);
   }
 
   function draw(e, color) {
@@ -66,16 +66,14 @@ export default function Whiteboard(props) {
     context.lineTo(offsetX, offsetY);
     context.strokeStyle = color;
     context.stroke();
-    const coordinates = { offsetX, offsetY, id };
-    const newCoordinates = drawing.concat(coordinates);
-    handleDrawingChange(newCoordinates);
+    const coordinate = { offsetX, offsetY };
+    const newDrawing = drawing.concat(coordinate);
+    handleDrawingChange(newDrawing);
   }
 
   function finishDrawing() {
     contextRef.current.closePath();
     setIsDrawing(false);
-    const lineID = id + 1;
-    setID(lineID);
   }
 
   function clearWhiteboard() {
