@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { startNewLine, draw, clearCanvas } from "../constants/painter";
 
 export default function Whiteboard(props) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
-  const [isDrawing, setIsDrawing] = useState(false);
+  const isDrawing = useRef(false);
 
   useEffect(() => {
     const pixelRatio = window.devicePixelRatio || 1;
@@ -30,7 +30,7 @@ export default function Whiteboard(props) {
       clearCanvas(width, height, contextRef.current);
       return;
     }
-    if (isDrawing || drawing.length <= 1) return;
+    if (isDrawing.current || drawing.length <= 1) return;
 
     const lastCoordinates = drawing[drawing.length - 1];
     const { offsetX, offsetY, isNewLine } = lastCoordinates;
@@ -47,7 +47,7 @@ export default function Whiteboard(props) {
   function handleMouseDown(e) {
     const { offsetX, offsetY } = e.nativeEvent;
     startNewLine(offsetX, offsetY, contextRef.current);
-    setIsDrawing(true);
+    isDrawing.current = true;
     const isNewLine = true;
     const coordinate = { offsetX, offsetY, isNewLine };
     const newDrawing = drawing.concat(coordinate);
@@ -55,7 +55,7 @@ export default function Whiteboard(props) {
   }
 
   function handleMouseMove(e) {
-    if (!isDrawing) return;
+    if (!isDrawing.current) return;
     const { offsetX, offsetY } = e.nativeEvent;
     draw(offsetX, offsetY, contextRef.current);
     const coordinate = { offsetX, offsetY };
@@ -64,7 +64,7 @@ export default function Whiteboard(props) {
   }
 
   function handleMouseUp() {
-    setIsDrawing(false);
+    isDrawing.current = false;
   }
   
   function handleClearWhiteboardClick() {
