@@ -8,20 +8,8 @@ export default function Whiteboard(props) {
   const isDrawing = useRef(false);
 
   useEffect(() => {
-    const pixelRatio = window.devicePixelRatio || 1;
-    
-    const canvas = canvasRef.current;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * pixelRatio;
-    canvas.style.width = `${window.innerWidth / pixelRatio}px`;
-    canvas.style.height = `${window.innerHeight}px`;
-
-    const context = canvas.getContext("2d");
-    context.scale(pixelRatio, pixelRatio);
-    context.lineCap = "round";
-    context.strokeStyle = "black";
-    context.lineWidth = 5;
-    contextRef.current = context;
+    setCanvasProperties();
+    setContextProperties();
   }, []);
 
   useEffect(() => {
@@ -71,6 +59,25 @@ export default function Whiteboard(props) {
     const { width, height } = canvasRef.current;
     clearCanvas(width, height, contextRef.current);
     handleDrawingChange([]);
+  }
+
+  function setCanvasProperties() {
+    const canvas = canvasRef.current;
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * pixelRatio;
+    canvas.style.width = `${window.innerWidth / pixelRatio}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+  }
+  
+  function setContextProperties() {
+    const context = canvasRef.current.getContext("2d");
+    const pixelRatio = window.devicePixelRatio || 1;
+    context.scale(pixelRatio, pixelRatio);
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 5;
+    contextRef.current = context;
   }
 
   return (
