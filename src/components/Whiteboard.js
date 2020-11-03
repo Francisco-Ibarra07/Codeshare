@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { startNewLine, draw, clearCanvas } from "../constants/painter";
+import { CirclePicker } from "react-color";
+import { colors } from "../constants/colors";
 
 export default function Whiteboard(props) {
   const canvasRef = useRef(null);
