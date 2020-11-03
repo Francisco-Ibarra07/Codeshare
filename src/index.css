@@ -16,6 +16,15 @@
   padding: 0.5rem;
 }
 
+.whiteboard-top {
+  display: flex;
+  justify-content: space-between;
+  background-color: hsl(255, 6%, 13%);
+
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
 .editor-container {
   max-width: 50%;
   flex-grow: 1;
