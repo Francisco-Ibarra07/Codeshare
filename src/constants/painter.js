@@ -1,5 +1,6 @@
 // Creates a new path and move to next line starting position
-export function startNewLine(x, y, context) {
+export function startNewLine(x, y, color, context) {
+  context.strokeStyle = color;
   context.beginPath();
   context.moveTo(x, y);
 }

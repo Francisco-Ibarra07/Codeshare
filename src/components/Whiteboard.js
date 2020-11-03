@@ -41,7 +41,7 @@ export default function Whiteboard(props) {
 
   function handleMouseDown(e) {
     const { offsetX, offsetY } = e.nativeEvent;
-    startNewLine(offsetX, offsetY, contextRef.current);
+    startNewLine(offsetX, offsetY, color, contextRef.current);
     isDrawing.current = true;
     const isNewLine = true;
     const coordinate = { offsetX, offsetY, isNewLine };
