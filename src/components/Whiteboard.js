@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { startNewLine, draw, clearCanvas } from "../constants/painter";
 import { CirclePicker } from "react-color";
 import { colors } from "../constants/colors";
@@ -8,6 +8,7 @@ export default function Whiteboard(props) {
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
   const isDrawing = useRef(false);
+  const [ color, setColor ] = useState(colors[colors.length - 1]);
 
   useEffect(() => {
     setCanvasProperties();
@@ -32,6 +33,10 @@ export default function Whiteboard(props) {
 
   function handleDrawingChange(newDrawing) {
     setDrawing(newDrawing)
+  }
+
+  function handleColorChange(newColor) {
+    setColor(newColor.hex);
   }
 
   function handleMouseDown(e) {
