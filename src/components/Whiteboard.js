@@ -89,7 +89,14 @@ export default function Whiteboard(props) {
 
   return (
     <div className="whiteboard-container">
-      <button onClick={handleClearWhiteboardClick}>Clear Whiteboard</button>
+      <div className="whiteboard-top">
+        <CirclePicker
+          color={color}
+          onChangeComplete={handleColorChange}
+        />
+        <button onClick={handleClearWhiteboardClick}>Clear Whiteboard</button>
+      </div>
+
       <canvas
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
