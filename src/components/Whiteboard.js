@@ -21,7 +21,7 @@ export default function Whiteboard(props) {
       clearCanvas(width, height, contextRef.current);
       return;
     }
-    if (isDrawing.current || drawing.length <= 1) return;
+    if (isDrawing.current) return;
 
     const lastCoordinates = drawing[drawing.length - 1];
     const { offsetX, offsetY, color, isNewLine } = lastCoordinates;
