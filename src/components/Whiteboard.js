@@ -82,7 +82,7 @@ export default function Whiteboard(props) {
     const pixelRatio = window.devicePixelRatio || 1;
     context.scale(pixelRatio, pixelRatio);
     context.lineCap = "round";
-    context.strokeStyle = "black";
+    context.strokeStyle = colors[colors.length - 1];
     context.lineWidth = 5;
     contextRef.current = context;
   }
