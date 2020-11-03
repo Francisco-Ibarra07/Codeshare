@@ -24,10 +24,10 @@ export default function Whiteboard(props) {
     if (isDrawing.current) return;
 
     const lastCoordinates = drawing[drawing.length - 1];
-    const { offsetX, offsetY, color, isNewLine } = lastCoordinates;
+    const { offsetX, offsetY, color } = lastCoordinates;
 
     const context = contextRef.current;
-    if (isNewLine) startNewLine(offsetX, offsetY, color, context);
+    if (color) startNewLine(offsetX, offsetY, color, context);
     else draw(offsetX, offsetY, context);
   }, [drawing]);
 
@@ -43,8 +43,7 @@ export default function Whiteboard(props) {
     const { offsetX, offsetY } = e.nativeEvent;
     startNewLine(offsetX, offsetY, color, contextRef.current);
     isDrawing.current = true;
-    const isNewLine = true;
-    const coordinate = { offsetX, offsetY, color, isNewLine };
+    const coordinate = { offsetX, offsetY, color };
     const newDrawing = drawing.concat(coordinate);
     handleDrawingChange(newDrawing);
   }
