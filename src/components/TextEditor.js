@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "codemirror/mode/php/php";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/python/python";
@@ -20,9 +20,28 @@ export default function TextEditor(props) {
     displayName,
     roomName,
     setCursor,
+    cursorList, // [{cursorPos, color}]
   } = props;
+
+  useEffect(() => {
+    // Clear any bookmarks that are already set
+    while (markerList.length > 0) {
+      const marker = markerList.pop();
+      marker.clear();
+    }
+
+    // Iterate through new list and create bookmarks
+    for (let i = 0; i < cursorList.length; i++) {
+      const newMarker = createBookmark(
+        cursorList[i].cursorPos,
+        cursorList[i].color
+      );
+      markerList.push(newMarker);
+    }
+  }, [cursorList]);
+
+  const [markerList, setMarkerList] = useState([]);
   const cmRef = useRef();
-  const markerRef = useRef();
 
   function handleTextEditorChange(editor, data, value) {
     setText(value);
@@ -38,15 +57,6 @@ export default function TextEditor(props) {
 
   function handleCursorChange(editor, data) {
     setCursor(data);
-
-    // if (markerRef.current !== undefined) {
-    //   console.log("Clearing!");
-    //   markerRef.current.clear();
-    // }
-
-    // const newMarker = createBookmark(data);
-    // console.log("New marker: ", newMarker);
-    // markerRef.current = newMarker;
   }
 
   function createBookmark(cursorPos, color) {

@@ -27,8 +27,6 @@ export default function RoomManager(props) {
     socketRef.current.on("cursor change", (data) => {
       const targetUser = participantListRef.current[data.clientId];
       targetUser.cursorPos = data.newCursorPos;
-
-      console.log("new cursor change:", participantListRef.current);
     });
 
     // Handles incoming text changes
@@ -93,6 +91,16 @@ export default function RoomManager(props) {
     });
   }
 
+  const cursorList = [];
+  for (let key in participantListRef.current) {
+    if (key !== socketRef.current.id) {
+      cursorList.push({
+        cursorPos: participantListRef.current[key].cursorPos,
+        color: participantListRef.current[key].color,
+      });
+    }
+  }
+
   return (
     <>
       <div className="app-container">
@@ -104,6 +112,7 @@ export default function RoomManager(props) {
           displayName={displayName}
           roomName={roomName}
           setCursor={handleLocalCursorChange}
+          cursorList={cursorList}
         />
         <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
         {/* <ParticipantList /> */}
