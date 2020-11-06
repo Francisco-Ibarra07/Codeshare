@@ -96,6 +96,10 @@ io.on("connection", (socket) => {
     socket.to(roomName).broadcast.emit("canvas change", newDrawing);
   });
 
+  socket.on("cursor change", (data) => {
+    socket.to(roomName).broadcast.emit("cursor change", data);
+  });
+
   // TODO: Delete from user list when someone leaves
   socket.on("disconnect", () => {
     // Remove socket id from participant list
