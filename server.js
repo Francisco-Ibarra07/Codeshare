@@ -10,10 +10,12 @@ const port = 5000;
 
 let rooms = {
   defaultRoom: {
-    users: [],
+    count: 0,
+    participants: {},
   },
   cmpe165: {
-    users: [],
+    count: 0,
+    participants: {},
   },
 };
 
@@ -49,6 +51,7 @@ app.get("/exists/:roomName", (req, res) => {
 
 io.on("connection", (socket) => {
   const roomName = socket.handshake.query.roomName;
+  const displayName = socket.handshake.query.displayName;
   if (roomName === undefined || rooms[roomName] === undefined) {
     console.error("Room name not specified or DNE");
     socket.disconnect();
@@ -57,7 +60,22 @@ io.on("connection", (socket) => {
 
   // Joins socket to specified room name
   socket.join(roomName, () => {
-    io.to(roomName).emit("new user", "New person has entered the room");
+    // Add socket id to participant list of this room
+    const list = rooms[roomName].participants;
+    list[socket.id] = {
+      displayName: displayName,
+      color: "red",
+      cursorPos: {
+        line: 0,
+        ch: 0,
+      },
+    };
+
+    // Increment the number of people seen in this room
+    rooms[roomName].count++;
+
+    // Have all other clients update their participant list
+    io.to(roomName).emit("list change", list);
   });
 
   console.log(`User connecting to room '${roomName}'`);
@@ -78,7 +96,20 @@ io.on("connection", (socket) => {
     socket.to(roomName).broadcast.emit("canvas change", newDrawing);
   });
 
+  // TODO: Delete from user list when someone leaves
   socket.on("disconnect", () => {
+    // Remove socket id from participant list
+    const list = rooms[roomName].participants;
+    delete list[socket.id];
+
+    // Have all other clients update their participant list
+    socket.to(roomName).emit("list change", list);
+
+    // If there are no more people in the room, delete the room
+    // rooms[roomName].count--;
+    // if (roomName[roomName].count <= 0) {
+    // delete rooms[roomName];
+    // }
     console.log("User disconnected");
   });
 });
