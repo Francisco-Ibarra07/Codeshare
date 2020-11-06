@@ -12,7 +12,15 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import { supportedLanguages, getLanguageMode } from "../constants/editor";
 
 export default function TextEditor(props) {
-  const { text, setText, language, setLanguage, displayName, roomName } = props;
+  const {
+    text,
+    setText,
+    language,
+    setLanguage,
+    displayName,
+    roomName,
+    setCursor,
+  } = props;
   const cmRef = useRef();
   const markerRef = useRef();
 
@@ -29,15 +37,16 @@ export default function TextEditor(props) {
   }
 
   function handleCursorChange(editor, data) {
-    console.log("on change: ", markerRef.current);
-    if (markerRef.current !== undefined) {
-      console.log("Clearing!");
-      markerRef.current.clear();
-    }
+    setCursor(data);
 
-    const newMarker = createBookmark(data);
-    console.log("New marker: ", newMarker);
-    markerRef.current = newMarker;
+    // if (markerRef.current !== undefined) {
+    //   console.log("Clearing!");
+    //   markerRef.current.clear();
+    // }
+
+    // const newMarker = createBookmark(data);
+    // console.log("New marker: ", newMarker);
+    // markerRef.current = newMarker;
   }
 
   function createBookmark(cursorPos, color) {

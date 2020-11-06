@@ -17,14 +17,18 @@ export default function RoomManager(props) {
       `localhost:5000?roomName=${roomName}&displayName=${displayName}`
     );
 
+    // Handle incoming participant list changes
     socketRef.current.on("list change", (newList) => {
-      console.log("Incoming change: ", newList);
       participantListRef.current = newList;
       console.log("New list state: ", participantListRef.current);
     });
 
-    socketRef.current.on("new user", (data) => {
-      console.log(data);
+    // Handle incoming cursor changes
+    socketRef.current.on("cursor change", (data) => {
+      const targetUser = participantListRef.current[data.clientId];
+      targetUser.cursorPos = data.newCursorPos;
+
+      console.log("new cursor change:", participantListRef.current);
     });
 
     // Handles incoming text changes
@@ -77,6 +81,18 @@ export default function RoomManager(props) {
     socketRef.current.emit("canvas change", newDrawing);
   }
 
+  function handleLocalCursorChange(newCursorPos) {
+    // Update our cursor locally
+    const myObject = participantListRef.current[socketRef.current.id];
+    myObject.cursorPos = newCursorPos;
+
+    // Emit cursor change to everyone else
+    socketRef.current.emit("cursor change", {
+      clientId: socketRef.current.id,
+      newCursorPos: newCursorPos,
+    });
+  }
+
   return (
     <>
       <div className="app-container">
@@ -87,6 +103,7 @@ export default function RoomManager(props) {
           setLanguage={handleLocalLanguageChange}
           displayName={displayName}
           roomName={roomName}
+          setCursor={handleLocalCursorChange}
         />
         <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
         {/* <ParticipantList /> */}
