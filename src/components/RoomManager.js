@@ -7,13 +7,21 @@ import Whiteboard from "../components/Whiteboard";
 export default function RoomManager(props) {
   const { roomName, displayName } = props;
   const socketRef = useRef();
+  const participantListRef = useRef();
   const [language, setLanguage] = useState("javascript");
   const [text, setText] = useState(snippets["javascript"]);
   const [drawing, setDrawing] = useState([]);
 
   useEffect(() => {
-    socketRef.current = io(`localhost:5000?roomName=${roomName}`); // <-- Use when developing
-    // socketRef.current = io(); // <-- Use during deployment
+    socketRef.current = io(
+      `localhost:5000?roomName=${roomName}&displayName=${displayName}`
+    );
+
+    socketRef.current.on("list change", (newList) => {
+      console.log("Incoming change: ", newList);
+      participantListRef.current = newList;
+      console.log("New list state: ", participantListRef.current);
+    });
 
     socketRef.current.on("new user", (data) => {
       console.log(data);
@@ -80,10 +88,8 @@ export default function RoomManager(props) {
           displayName={displayName}
           roomName={roomName}
         />
-        <Whiteboard
-          drawing={drawing}
-          setDrawing={handleLocalDrawingChange}
-        />
+        <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
+        {/* <ParticipantList /> */}
       </div>
     </>
   );
