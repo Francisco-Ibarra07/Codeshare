@@ -6,8 +6,10 @@ import Whiteboard from "../components/Whiteboard";
 import ParticipantList from "../components/ParticipantList";
 
 const apiURL =
-  process.env.NODE_ENV === "production" ? "API_URL" : "localhost:5000";
-console.log("Hostname: ", apiURL);
+  process.env.NODE_ENV === "production"
+    ? "https://codeshare-api-vxvdcx3l4q-uw.a.run.app"
+    : "localhost:5000";
+console.log("Api url: ", apiURL);
 console.log("env: ", process.env);
 
 export default function RoomManager(props) {

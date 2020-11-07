@@ -6,7 +6,7 @@ const http = require("http");
 const server = http.createServer(app);
 const io = socketio(server);
 const cors = require("cors");
-const port = 5000;
+const port = process.env.NODE_ENV === "development" ? 5000 : 8080;
 
 let rooms = {
   defaultRoom: {
