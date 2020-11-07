@@ -5,8 +5,13 @@ import { useParams } from "react-router-dom";
 import RoomManager from "../components/RoomManager";
 import NamePrompt from "../components/NamePrompt";
 
+const apiURL =
+  process.env.NODE_ENV === "production"
+    ? "https://codeshare-api-vxvdcx3l4q-uw.a.run.app:8080"
+    : "localhost:5000";
+
 const checkRoomName = async (roomName) => {
-  const response = await axios.get(`http://localhost:5000/exists/${roomName}`);
+  const response = await axios.get(`${apiURL}/exists/${roomName}`);
   return response.status;
 };
 
