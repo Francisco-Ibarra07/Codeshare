@@ -81,7 +81,7 @@ export default function TextEditor(props) {
       <div className="editor-top">
         Display Name: {displayName}
         {/* Room Name: {roomName} */}
-        <button onClick={generateLink}>Generate Invitiation Link </button>
+        <button onClick={generateLink}>Generate Invitation Link </button>
         <DropdownButton title={language}>
           {supportedLanguages.map((lang) => (
             <Dropdown.Item
