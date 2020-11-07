@@ -10,11 +10,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import { supportedLanguages, getLanguageMode } from "../constants/editor";
-
-const apiURL =
-  process.env.NODE_ENV === "production"
-    ? "https://codeshare-api-vxvdcx3l4q-uw.a.run.app:8080"
-    : "localhost:5000";
+import apiURL from "../constants/apiURL";
 
 export default function TextEditor(props) {
   const {

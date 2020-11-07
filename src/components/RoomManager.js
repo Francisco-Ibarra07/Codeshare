@@ -4,11 +4,8 @@ import { snippets } from "../constants/snippets";
 import TextEditor from "../components/TextEditor";
 import Whiteboard from "../components/Whiteboard";
 import ParticipantList from "../components/ParticipantList";
+import apiURL from "../constants/apiURL";
 
-const apiURL =
-  process.env.NODE_ENV === "production"
-    ? "https://codeshare-api-vxvdcx3l4q-uw.a.run.app:8080"
-    : "localhost:5000";
 console.log("Api url: ", apiURL);
 console.log("env: ", process.env);
 
