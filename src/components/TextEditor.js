@@ -23,6 +23,9 @@ export default function TextEditor(props) {
     cursorList, // [{cursorPos, color}]
   } = props;
 
+  const [markerList, setMarkerList] = useState([]);
+  const cmRef = useRef();
+
   useEffect(() => {
     // Clear any bookmarks that are already set
     while (markerList.length > 0) {
@@ -39,9 +42,6 @@ export default function TextEditor(props) {
       markerList.push(newMarker);
     }
   }, [cursorList]);
-
-  const [markerList, setMarkerList] = useState([]);
-  const cmRef = useRef();
 
   function handleTextEditorChange(editor, data, value) {
     setText(value);

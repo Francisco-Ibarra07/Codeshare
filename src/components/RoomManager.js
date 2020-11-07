@@ -8,6 +8,7 @@ export default function RoomManager(props) {
   const { roomName, displayName } = props;
   const socketRef = useRef();
   const participantListRef = useRef();
+  const [cursorList, setCursorList] = useState([]);
   const [language, setLanguage] = useState("javascript");
   const [text, setText] = useState(snippets["javascript"]);
   const [drawing, setDrawing] = useState([]);
@@ -21,12 +22,14 @@ export default function RoomManager(props) {
     socketRef.current.on("list change", (newList) => {
       participantListRef.current = newList;
       console.log("New list state: ", participantListRef.current);
+      refreshCursorList();
     });
 
     // Handle incoming cursor changes
     socketRef.current.on("cursor change", (data) => {
       const targetUser = participantListRef.current[data.clientId];
       targetUser.cursorPos = data.newCursorPos;
+      refreshCursorList();
     });
 
     // Handles incoming text changes
@@ -89,16 +92,24 @@ export default function RoomManager(props) {
       clientId: socketRef.current.id,
       newCursorPos: newCursorPos,
     });
+
+    refreshCursorList();
   }
 
-  const cursorList = [];
-  for (let key in participantListRef.current) {
-    if (key !== socketRef.current.id) {
-      cursorList.push({
-        cursorPos: participantListRef.current[key].cursorPos,
-        color: participantListRef.current[key].color,
-      });
+  // When this method gets called, it iterates through participant list
+  // and generates (or 'refreshes') the cursor list
+  function refreshCursorList() {
+    const newCursorList = [];
+    for (let key in participantListRef.current) {
+      if (key !== socketRef.current.id) {
+        newCursorList.push({
+          cursorPos: participantListRef.current[key].cursorPos,
+          color: participantListRef.current[key].color,
+        });
+      }
     }
+
+    setCursorList(newCursorList);
   }
 
   return (
