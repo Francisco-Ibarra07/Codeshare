@@ -5,6 +5,11 @@ import TextEditor from "../components/TextEditor";
 import Whiteboard from "../components/Whiteboard";
 import ParticipantList from "../components/ParticipantList";
 
+const apiURL =
+  process.env.NODE_ENV === "production" ? "API_URL" : "localhost:5000";
+console.log("Hostname: ", apiURL);
+console.log("env: ", process.env);
+
 export default function RoomManager(props) {
   const { roomName, displayName } = props;
   const socketRef = useRef();
@@ -17,7 +22,7 @@ export default function RoomManager(props) {
 
   useEffect(() => {
     socketRef.current = io(
-      `localhost:5000?roomName=${roomName}&displayName=${displayName}`
+      `${apiURL}?roomName=${roomName}&displayName=${displayName}`
     );
 
     // Handle incoming participant list changes
