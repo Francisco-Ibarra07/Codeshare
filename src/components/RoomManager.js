@@ -3,12 +3,14 @@ import io from "socket.io-client";
 import { snippets } from "../constants/snippets";
 import TextEditor from "../components/TextEditor";
 import Whiteboard from "../components/Whiteboard";
+import ParticipantList from "../components/ParticipantList";
 
 export default function RoomManager(props) {
   const { roomName, displayName } = props;
   const socketRef = useRef();
   const participantListRef = useRef();
   const [cursorList, setCursorList] = useState([]);
+  const [nameList, setNameList] = useState([]);
   const [language, setLanguage] = useState("javascript");
   const [text, setText] = useState(snippets["javascript"]);
   const [drawing, setDrawing] = useState([]);
@@ -23,6 +25,7 @@ export default function RoomManager(props) {
       participantListRef.current = newList;
       console.log("New list state: ", participantListRef.current);
       refreshCursorList();
+      refreshNameList();
     });
 
     // Handle incoming cursor changes
@@ -112,6 +115,18 @@ export default function RoomManager(props) {
     setCursorList(newCursorList);
   }
 
+  function refreshNameList() {
+    const newNameList = [];
+    for (let key in participantListRef.current) {
+      newNameList.push({
+        displayName: participantListRef.current[key].displayName,
+        color: participantListRef.current[key].color,
+      });
+    }
+
+    setNameList(newNameList);
+  }
+
   return (
     <div className="app-container">
       <TextEditor
@@ -125,7 +140,7 @@ export default function RoomManager(props) {
         cursorList={cursorList}
       />
       <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
-      {/* <ParticipantList /> */}
+      <ParticipantList nameList={nameList} />
     </div>
   );
 }
