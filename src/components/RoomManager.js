@@ -113,21 +113,19 @@ export default function RoomManager(props) {
   }
 
   return (
-    <>
-      <div className="app-container">
-        <TextEditor
-          text={text}
-          setText={handleLocalTextChange}
-          language={language}
-          setLanguage={handleLocalLanguageChange}
-          displayName={displayName}
-          roomName={roomName}
-          setCursor={handleLocalCursorChange}
-          cursorList={cursorList}
-        />
-        <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
-        {/* <ParticipantList /> */}
-      </div>
-    </>
+    <div className="app-container">
+      <TextEditor
+        text={text}
+        setText={handleLocalTextChange}
+        language={language}
+        setLanguage={handleLocalLanguageChange}
+        displayName={displayName}
+        roomName={roomName}
+        setCursor={handleLocalCursorChange}
+        cursorList={cursorList}
+      />
+      <Whiteboard drawing={drawing} setDrawing={handleLocalDrawingChange} />
+      {/* <ParticipantList /> */}
+    </div>
   );
 }
