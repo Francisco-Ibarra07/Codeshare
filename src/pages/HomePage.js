@@ -27,18 +27,18 @@ export default function HomePage() {
     }
 
     axios
-      .post(`${apiURL}/new`, { roomName: roomName })
+      .post(`${apiURL}/new`, { roomName })
       .then((response) => {
         // Redirect if success
         if (response.status === 201) {
           history.push({
             pathname: `/room/${roomName}`,
-            data: { passedInDisplayName: displayName}
+            data: { passedInDisplayName: displayName },
           });
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Exception on POST request: ", error);
       });
   }
 
