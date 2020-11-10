@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const cors = require("cors");
+const server = http.createServer(app);
+const io = socketio(server);
 const port = process.env.NODE_ENV === "development" ? 5000 : 8080;
 
 let rooms = {
@@ -56,9 +58,6 @@ app.get("/exists/:roomName", (req, res) => {
     return res.sendStatus(200);
   }
 });
-
-const server = http.createServer(app);
-const io = socketio(server);
 
 io.on("connection", (socket) => {
   const roomName = socket.handshake.query.roomName;
