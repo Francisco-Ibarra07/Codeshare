@@ -6,9 +6,6 @@ import Whiteboard from "../components/Whiteboard";
 import ParticipantList from "../components/ParticipantList";
 import apiURL from "../constants/apiURL";
 
-console.log("Api url: ", apiURL);
-console.log("env: ", process.env);
-
 export default function RoomManager(props) {
   const { roomName, displayName } = props;
   const socketRef = useRef();
