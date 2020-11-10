@@ -3,8 +3,6 @@ const socketio = require("socket.io");
 const express = require("express");
 const app = express();
 const http = require("http");
-const server = http.createServer(app);
-const io = socketio(server);
 const cors = require("cors");
 const port = process.env.NODE_ENV === "development" ? 5000 : 8080;
 
@@ -19,7 +17,6 @@ let rooms = {
   },
 };
 
-// app.use(express.static(path.join(__dirname, "build")));
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -31,11 +28,22 @@ app.get("/", (req, res) => {
 app.post("/new", (req, res) => {
   const { roomName } = req.body;
 
+  // If no roomName was passed in, return error code
   if (roomName === undefined) {
     return res.sendStatus(400);
   }
 
-  rooms[roomName] = { users: [] };
+  // If room already exists, return
+  if (rooms[roomName] !== undefined) {
+    return res.sendStatus(201);
+  }
+
+  // Create room
+  rooms[roomName] = {
+    count: 0,
+    participants: {},
+  };
+
   return res.sendStatus(201);
 });
 
@@ -48,6 +56,9 @@ app.get("/exists/:roomName", (req, res) => {
     return res.sendStatus(200);
   }
 });
+
+const server = http.createServer(app);
+const io = socketio(server);
 
 io.on("connection", (socket) => {
   const roomName = socket.handshake.query.roomName;
