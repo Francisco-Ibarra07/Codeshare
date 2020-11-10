@@ -6,9 +6,10 @@ import NamePrompt from "../components/NamePrompt";
 import apiURL from "../constants/apiURL";
 
 export default function RoomPage() {
-  const location = useLocation();
+  const { state } = useLocation();
   const { roomName } = useParams();
-  const { passedInDisplayName } = location;
+  const passedInDisplayName =
+    state !== undefined ? state.passedInDisplayName : undefined;
   const [status, setStatus] = useState("loading");
   const [displayName, setDisplayName] = useState(passedInDisplayName);
 

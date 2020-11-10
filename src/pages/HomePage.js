@@ -33,7 +33,7 @@ export default function HomePage() {
         if (response.status === 201) {
           history.push({
             pathname: `/room/${roomName}`,
-            data: { passedInDisplayName: displayName },
+            state: { passedInDisplayName: displayName },
           });
         }
       })
