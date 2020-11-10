@@ -25,6 +25,7 @@
     "socket.io-client": "^2.3.1"
   },
   "scripts": {
+    "devserver": "NODE_ENV=development nodemon server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
