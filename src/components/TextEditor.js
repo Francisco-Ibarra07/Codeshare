@@ -53,7 +53,7 @@ export default function TextEditor(props) {
   }
 
   function generateLink() {
-    alert(`   ${apiURL}/room/${roomName}   `);
+    alert(`   ${window.location.href}   `);
   }
 
   function handleCursorChange(editor, data) {
