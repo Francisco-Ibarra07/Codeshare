@@ -1,6 +1,7 @@
 const path = require("path");
 const socketio = require("socket.io");
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const http = require("http");
 const cors = require("cors");
@@ -20,6 +21,7 @@ let rooms = {
 };
 
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -28,12 +30,13 @@ app.get("/", (req, res) => {
 
 // Creates new room
 app.post("/new", (req, res) => {
-  const { roomName } = req.body;
-
-  // If no roomName was passed in, return error code
-  if (roomName === undefined) {
+  // If no body or roomName was passed in, return error code
+  if (req.body === undefined || req.body.roomName === undefined) {
+    console.log("No name or body");
     return res.sendStatus(400);
   }
+
+  const { roomName } = req.body;
 
   // If room already exists, return
   if (rooms[roomName] !== undefined) {
