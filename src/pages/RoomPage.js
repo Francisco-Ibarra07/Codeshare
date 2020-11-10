@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import RoomManager from "../components/RoomManager";
 import NamePrompt from "../components/NamePrompt";
 import apiURL from "../constants/apiURL";
@@ -11,9 +11,16 @@ const checkRoomName = async (roomName) => {
   return response.status;
 };
 
+// /room/:roomName
+// 'displayName'
+// /room/defaultRoom
 export default function RoomPage() {
+  const location = useLocation();
   const { roomName } = useParams();
-  const [displayName, setDisplayName] = useState("");
+  const { passedInDisplayName } = location;
+  console.log("Passed in: ", passedInDisplayName);
+
+  const [displayName, setDisplayName] = useState(passedInDisplayName);
   const { status } = useQuery("room", () => checkRoomName(roomName), {
     retry: 0,
   });
