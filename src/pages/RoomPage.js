@@ -1,35 +1,41 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import RoomManager from "../components/RoomManager";
 import NamePrompt from "../components/NamePrompt";
 import apiURL from "../constants/apiURL";
 
-const checkRoomName = async (roomName) => {
-  const response = await axios.get(`${apiURL}/exists/${roomName}`);
-  return response.status;
-};
-
-// /room/:roomName
-// 'displayName'
-// /room/defaultRoom
 export default function RoomPage() {
   const location = useLocation();
   const { roomName } = useParams();
   const { passedInDisplayName } = location;
-  console.log("Passed in: ", passedInDisplayName);
-
+  const [status, setStatus] = useState("loading");
   const [displayName, setDisplayName] = useState(passedInDisplayName);
-  const { status } = useQuery("room", () => checkRoomName(roomName), {
-    retry: 0,
-  });
+
+  useEffect(() => {
+    const checkRoomName = async (roomName) => {
+      try {
+        const response = await axios.get(`${apiURL}/exists/${roomName}`);
+        if (response.status === 200) {
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      } catch (error) {
+        console.log("Error on checkRoomName", error);
+        setStatus("error");
+      }
+    };
+
+    console.log("Checking room name");
+    checkRoomName(roomName);
+  }, []);
 
   if (status === "loading") {
     return <span>Loading...</span>;
   } else if (status === "error") {
     return <span>404 Error: The room {roomName} does not exist</span>;
-  } else if (displayName === "") {
+  } else if (displayName === "" || displayName === undefined) {
     return <NamePrompt setDisplayName={setDisplayName} />;
   } else {
     return <RoomManager roomName={roomName} displayName={displayName} />;
