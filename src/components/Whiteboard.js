@@ -91,6 +91,7 @@ export default function Whiteboard(props) {
       <div className="whiteboard-top">
         <CirclePicker
           color={color}
+          colors={colors}
           onChangeComplete={handleColorChange}
         />
         <button onClick={handleClearWhiteboardClick}>Clear Whiteboard</button>
