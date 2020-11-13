@@ -8,7 +8,7 @@ export default function Whiteboard(props) {
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
   const isDrawing = useRef(false);
-  const [ color, setColor ] = useState(colors[colors.length - 1]);
+  const [color, setColor] = useState(colors[colors.length - 1]);
 
   useEffect(() => {
     setCanvasProperties();
@@ -60,7 +60,7 @@ export default function Whiteboard(props) {
   function handleMouseUp() {
     isDrawing.current = false;
   }
-  
+
   function handleClearWhiteboardClick() {
     const { width, height } = canvasRef.current;
     clearCanvas(width, height, contextRef.current);
@@ -75,7 +75,7 @@ export default function Whiteboard(props) {
     canvas.style.width = `${window.innerWidth / pixelRatio}px`;
     canvas.style.height = `${window.innerHeight}px`;
   }
-  
+
   function setContextProperties() {
     const context = canvasRef.current.getContext("2d");
     const pixelRatio = window.devicePixelRatio || 1;
