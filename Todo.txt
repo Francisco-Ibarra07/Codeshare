@@ -10,7 +10,6 @@ Whiteboard Tasks:
 Other:
 - create a participants list
 
-
 Done:
 - Integrate codemirror text editor
 - Create 'server.js' to handle socket.io messages
