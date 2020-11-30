@@ -4,12 +4,10 @@ Text Editor Tasks:
 - Creating a home page that asks for display name (and room name?)
 
 Whiteboard Tasks:
-- Add an eraser tool
 - Allow user to make eraser or pen resizable
 
 Other:
 - create a participants list
-
 
 Done:
 - Integrate codemirror text editor
@@ -17,3 +15,4 @@ Done:
 - Create a dropdown button to allow language changes
 - Make whiteboard "realtime" by using the socket.io and socket.io-client libraries
 - Add a button to change whiteboard pen color
+- Add an eraser tool
