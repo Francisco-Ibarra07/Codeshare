@@ -8,7 +8,7 @@ export default function Whiteboard(props) {
   const contextRef = useRef(null);
   const { drawing, setDrawing } = props;
   const isDrawing = useRef(false);
-  const [color, setColor] = useState(colors[colors.length - 1]);
+  const [color, setColor] = useState(colors[colors.length - 2]);
 
   useEffect(() => {
     setCanvasProperties();
@@ -81,7 +81,7 @@ export default function Whiteboard(props) {
     const pixelRatio = window.devicePixelRatio || 1;
     context.scale(pixelRatio, pixelRatio);
     context.lineCap = "round";
-    context.strokeStyle = colors[colors.length - 1];
+    context.strokeStyle = colors[colors.length - 2];
     context.lineWidth = 5;
     contextRef.current = context;
   }
